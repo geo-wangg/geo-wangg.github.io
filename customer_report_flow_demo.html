@@ -1,0 +1,1918 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>售前报告 - 客户版报告流程示意</title>
+  <style>
+    :root {
+      --primary: #724fff;
+      --primary-strong: #5b3df2;
+      --primary-soft: #f3f0ff;
+      --ink: #0f172a;
+      --muted: #64748b;
+      --line: #e2e8f0;
+      --surface: #ffffff;
+      --bg: #f8fafc;
+      --green: #16a34a;
+      --amber: #d97706;
+      --red: #dc2626;
+      --blue: #2563eb;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+      letter-spacing: 0;
+    }
+
+    button, input {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    .app {
+      display: flex;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .sidebar {
+      width: 256px;
+      flex-shrink: 0;
+      background: #fff;
+      border-right: 1px solid #eef2f7;
+      padding: 24px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 12px;
+    }
+
+    .brand-mark {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #4f46e5, #8b5cf6);
+      display: grid;
+      place-items: center;
+      color: #fff;
+      box-shadow: 0 12px 28px rgba(79, 70, 229, 0.24);
+    }
+
+    .brand-title {
+      font-size: 20px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .brand-version {
+      margin-top: 4px;
+      font-size: 10px;
+      font-weight: 800;
+      color: #4f46e5;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      color: #475569;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .nav-item.active {
+      color: #4f46e5;
+      background: #eef2ff;
+    }
+
+    .nav-item svg {
+      width: 18px;
+      height: 18px;
+      flex: 0 0 auto;
+    }
+
+    .profile {
+      margin-top: auto;
+      padding: 16px 12px 0;
+      border-top: 1px solid #f1f5f9;
+    }
+
+    .profile-card {
+      background: #0f172a;
+      color: #fff;
+      border-radius: 16px;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .profile-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: #6366f1;
+      font-weight: 800;
+    }
+
+    .profile-phone {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .profile-role {
+      margin-top: 3px;
+      color: #94a3b8;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .main {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .project-bar {
+      padding: 42px 48px 0;
+      background: var(--bg);
+    }
+
+    .project-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid #e8edf5;
+      color: #94a3b8;
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .project-select {
+      color: #334155;
+      background: transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 180px;
+      padding: 5px 6px;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0 48px 48px;
+    }
+
+    .content-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    .page-head {
+      margin-top: 22px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .page-title {
+      margin: 0;
+      font-size: 26px;
+      line-height: 1.2;
+      font-weight: 900;
+    }
+
+    .page-subtitle {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .btn {
+      min-height: 36px;
+      padding: 0 14px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: #334155;
+      background: #eff2f7;
+      font-size: 14px;
+      font-weight: 700;
+      white-space: nowrap;
+      transition: background 0.15s, color 0.15s, transform 0.15s, box-shadow 0.15s;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn.primary {
+      color: #fff;
+      background: var(--primary);
+      box-shadow: 0 10px 20px rgba(114, 79, 255, 0.18);
+    }
+
+    .btn.primary:hover {
+      background: var(--primary-strong);
+    }
+
+    .btn.ghost {
+      background: #fff;
+      border: 1px solid var(--line);
+    }
+
+    .btn.share {
+      color: #fff;
+      background: #2563eb;
+    }
+
+    .btn.danger {
+      color: #fff;
+      background: var(--red);
+    }
+
+    .btn svg {
+      width: 15px;
+      height: 15px;
+    }
+
+    .report-stack {
+      margin-top: 22px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .report-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 8px;
+      background: #fff;
+      padding: 20px;
+      box-shadow: 0 18px 40px rgba(99, 102, 241, 0.08);
+    }
+
+    .report-card.customer {
+      display: none;
+      border-color: #bfdbfe;
+      box-shadow: 0 18px 40px rgba(37, 99, 235, 0.1);
+    }
+
+    .report-card.customer.show {
+      display: block;
+    }
+
+    .report-hero {
+      position: relative;
+      min-height: 218px;
+      border-radius: 8px;
+      background: #fbf9ff;
+      padding: 24px 260px 24px 24px;
+      overflow: hidden;
+    }
+
+    .report-card.customer .report-hero {
+      background: #f8fbff;
+    }
+
+    .report-art {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 230px;
+      opacity: 0.95;
+    }
+
+    .report-label-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .report-title {
+      font-size: 20px;
+      line-height: 1.3;
+      font-weight: 800;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      min-height: 24px;
+      padding: 0 8px;
+      border-radius: 999px;
+      background: #ecfdf5;
+      color: #15803d;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .pill.blue {
+      background: #eff6ff;
+      color: #2563eb;
+    }
+
+    .pill.amber {
+      background: #fffbeb;
+      color: #b45309;
+    }
+
+    .pill.gray {
+      background: #f1f5f9;
+      color: #64748b;
+    }
+
+    .info-grid {
+      margin-top: 22px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .info-row {
+      display: grid;
+      grid-template-columns: 78px minmax(0, 1fr);
+      align-items: start;
+      gap: 14px;
+      font-size: 14px;
+    }
+
+    .info-row span:first-child {
+      color: #64748b;
+      font-size: 12px;
+    }
+
+    .info-row span:last-child {
+      min-width: 0;
+      color: #0f172a;
+      overflow-wrap: anywhere;
+    }
+
+    .actions {
+      margin-top: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .hint-strip {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 8px;
+      color: #475569;
+      background: #f8fafc;
+      border: 1px dashed #cbd5e1;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .drawer-mask, .modal-mask {
+      position: fixed;
+      inset: 0;
+      display: none;
+      z-index: 50;
+      background: rgba(15, 23, 42, 0.42);
+    }
+
+    .drawer-mask.open, .modal-mask.open {
+      display: block;
+    }
+
+    .drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      z-index: 60;
+      width: min(1120px, calc(100vw - 36px));
+      height: 100vh;
+      transform: translateX(100%);
+      background: #fff;
+      box-shadow: -24px 0 60px rgba(15, 23, 42, 0.18);
+      transition: transform 0.22s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .drawer.open {
+      transform: translateX(0);
+    }
+
+    .drawer-head {
+      height: 72px;
+      flex: 0 0 auto;
+      padding: 0 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .drawer-title {
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .drawer-meta {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .icon-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 6px;
+      display: inline-grid;
+      place-items: center;
+      background: #f1f5f9;
+      color: #334155;
+    }
+
+    .drawer-body {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 344px minmax(0, 1fr);
+      background: #f8fafc;
+    }
+
+    .picker {
+      min-height: 0;
+      border-right: 1px solid #e2e8f0;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .picker-top {
+      padding: 16px;
+      border-bottom: 1px solid #eef2f7;
+      display: grid;
+      gap: 12px;
+    }
+
+    .summary-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .summary-cell {
+      border-radius: 8px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      padding: 10px;
+    }
+
+    .summary-cell b {
+      display: block;
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .summary-cell span {
+      display: block;
+      margin-top: 6px;
+      color: #64748b;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .quick-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .small-btn {
+      min-height: 30px;
+      padding: 0 10px;
+      border-radius: 6px;
+      background: #f1f5f9;
+      color: #334155;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .small-btn.active {
+      background: var(--primary-soft);
+      color: var(--primary-strong);
+    }
+
+    .page-list {
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
+      padding: 10px;
+    }
+
+    .page-row {
+      width: 100%;
+      border-radius: 8px;
+      padding: 10px;
+      display: grid;
+      grid-template-columns: 20px minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+      background: #fff;
+      border: 1px solid transparent;
+      text-align: left;
+      color: inherit;
+    }
+
+    .page-row + .page-row {
+      margin-top: 6px;
+    }
+
+    .page-row:hover, .page-row.active {
+      border-color: #c7d2fe;
+      background: #f8f7ff;
+    }
+
+    .page-row input {
+      margin: 3px 0 0;
+      width: 16px;
+      height: 16px;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    .page-name {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 0;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .page-name span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .preview-pane {
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .preview-toolbar {
+      flex: 0 0 auto;
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 18px;
+      border-bottom: 1px solid #e2e8f0;
+      background: #fff;
+    }
+
+    .preview-title {
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .preview-stage {
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
+      padding: 26px;
+      display: grid;
+      place-items: start center;
+    }
+
+    .report-page {
+      width: min(760px, 100%);
+      min-height: 980px;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.14);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .report-page.cover-page {
+      color: #fff;
+      background:
+        radial-gradient(circle at 78% 20%, rgba(255, 255, 255, 0.26), transparent 28%),
+        linear-gradient(135deg, #1e3a8a 0%, #4338ca 48%, #7c3aed 100%);
+    }
+
+    .cover-content {
+      min-height: 980px;
+      padding: 70px 64px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .cover-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .cover-logo-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.16);
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+    }
+
+    .cover-heading {
+      max-width: 560px;
+    }
+
+    .cover-heading h2 {
+      margin: 0;
+      font-size: 50px;
+      line-height: 1.1;
+      font-weight: 900;
+    }
+
+    .cover-heading p {
+      margin: 20px 0 0;
+      font-size: 18px;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.86);
+    }
+
+    .cover-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .cover-metric {
+      min-height: 96px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      padding: 16px;
+    }
+
+    .cover-metric span {
+      display: block;
+      color: rgba(255, 255, 255, 0.76);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .cover-metric b {
+      display: block;
+      margin-top: 10px;
+      font-size: 16px;
+      line-height: 1.35;
+    }
+
+    .page-content {
+      padding: 46px 48px;
+    }
+
+    .section-headline {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .section-no {
+      width: 52px;
+      height: 52px;
+      border-radius: 8px;
+      background: #eef2ff;
+      color: #4f46e5;
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .section-headline h2 {
+      margin: 0;
+      font-size: 30px;
+      line-height: 1.15;
+      font-weight: 900;
+    }
+
+    .section-headline p {
+      margin: 4px 0 0;
+      color: #64748b;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .metric-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 18px;
+      background: #fff;
+    }
+
+    .metric-card span {
+      display: block;
+      color: #64748b;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .metric-card b {
+      display: block;
+      margin-top: 14px;
+      font-size: 32px;
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .metric-card em {
+      display: block;
+      margin-top: 10px;
+      color: #64748b;
+      font-size: 12px;
+      font-style: normal;
+      line-height: 1.55;
+    }
+
+    .insight-box {
+      border-radius: 8px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      padding: 20px;
+      color: #334155;
+      font-size: 14px;
+      line-height: 1.75;
+    }
+
+    .chart-card {
+      margin-top: 20px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      padding: 20px;
+      min-height: 280px;
+      background: linear-gradient(180deg, #fff, #f8fafc);
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: 150px 1fr 48px;
+      align-items: center;
+      gap: 12px;
+      margin: 18px 0;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .bar-track {
+      height: 12px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: #e2e8f0;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: #2563eb;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 18px;
+      font-size: 13px;
+    }
+
+    .table th, .table td {
+      padding: 14px 12px;
+      border-bottom: 1px solid #e2e8f0;
+      text-align: left;
+    }
+
+    .table th {
+      color: #64748b;
+      background: #f8fafc;
+      font-size: 12px;
+    }
+
+    .checklist {
+      display: grid;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .check-item {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 16px;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .check-dot {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: #2563eb;
+      font-weight: 900;
+    }
+
+    .check-item b {
+      display: block;
+      font-size: 15px;
+    }
+
+    .check-item span {
+      display: block;
+      margin-top: 6px;
+      color: #64748b;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .quote-card {
+      margin-top: 18px;
+      border-radius: 8px;
+      background: #0f172a;
+      color: #fff;
+      padding: 26px;
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .quote-card b {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+
+    .drawer-foot {
+      flex: 0 0 auto;
+      min-height: 68px;
+      padding: 14px 20px;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: #fff;
+    }
+
+    .selected-note {
+      color: #475569;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .selected-note b {
+      color: #0f172a;
+      font-size: 15px;
+    }
+
+    .modal {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      z-index: 70;
+      display: none;
+      width: min(520px, calc(100vw - 32px));
+      max-height: calc(100vh - 48px);
+      transform: translate(-50%, -50%);
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 28px 80px rgba(15, 23, 42, 0.26);
+      overflow: hidden;
+    }
+
+    .modal.open {
+      display: block;
+    }
+
+    .modal.large {
+      width: min(980px, calc(100vw - 32px));
+    }
+
+    .modal-head {
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .modal-title {
+      font-size: 17px;
+      font-weight: 900;
+    }
+
+    .modal-body {
+      padding: 20px;
+      overflow: auto;
+      max-height: calc(100vh - 180px);
+    }
+
+    .modal-foot {
+      padding: 14px 20px;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      background: #fff;
+    }
+
+    .confirm-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .confirm-row {
+      display: grid;
+      grid-template-columns: 110px minmax(0, 1fr);
+      gap: 14px;
+      align-items: start;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .confirm-row span:first-child {
+      color: #64748b;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .preview-list {
+      display: grid;
+      gap: 20px;
+      justify-items: center;
+      background: #f8fafc;
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    .preview-list .report-page {
+      width: min(680px, 100%);
+      min-height: 880px;
+      transform-origin: top center;
+    }
+
+    .upload-box {
+      display: grid;
+      gap: 12px;
+      padding: 18px;
+      border: 1px dashed #cbd5e1;
+      border-radius: 8px;
+      background: #f8fafc;
+    }
+
+    .upload-box input {
+      width: 100%;
+      min-height: 38px;
+      color: #334155;
+      font-size: 14px;
+    }
+
+    .upload-file-name {
+      min-height: 22px;
+      color: #64748b;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .uploaded-preview-frame {
+      width: min(760px, 100%);
+      height: 820px;
+      border: 0;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.14);
+    }
+
+    .toast {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      z-index: 100;
+      display: none;
+      max-width: 360px;
+      border-radius: 8px;
+      background: #0f172a;
+      color: #fff;
+      padding: 14px 16px;
+      box-shadow: 0 18px 50px rgba(15, 23, 42, 0.24);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .toast.show {
+      display: block;
+    }
+
+    @media (max-width: 920px) {
+      .sidebar {
+        display: none;
+      }
+
+      .project-bar, .content {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .drawer {
+        width: 100vw;
+      }
+
+      .drawer-body {
+        grid-template-columns: 1fr;
+      }
+
+      .picker {
+        max-height: 48vh;
+        border-right: 0;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      .report-hero {
+        padding-right: 24px;
+      }
+
+      .report-art {
+        display: none;
+      }
+
+      .cover-metrics, .metric-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .report-page {
+        min-height: 780px;
+      }
+
+      .cover-content {
+        min-height: 780px;
+        padding: 44px 34px;
+      }
+
+      .cover-heading h2 {
+        font-size: 36px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"></circle>
+            <circle cx="12" cy="12" r="6"></circle>
+            <circle cx="12" cy="12" r="2"></circle>
+          </svg>
+        </div>
+        <div>
+          <div class="brand-title">GEO AGENT</div>
+          <div class="brand-version">V1.0 PRO</div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <div class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect width="7" height="9" x="3" y="3" rx="1"></rect><rect width="7" height="5" x="14" y="3" rx="1"></rect><rect width="7" height="9" x="14" y="12" rx="1"></rect><rect width="7" height="5" x="3" y="16" rx="1"></rect></svg>
+          <span>Dashboard</span>
+        </div>
+        <div class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg>
+          <span>Prompt 需求发现</span>
+        </div>
+        <div class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5"></path><path d="M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3"></path></svg>
+          <span>企业知识库</span>
+        </div>
+        <div class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"></path></svg>
+          <span>Tracker</span>
+        </div>
+        <div class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M2 12h20"></path><path d="M12 2a14.5 14.5 0 0 1 0 20"></path></svg>
+          <span>GEO Management</span>
+        </div>
+        <div class="nav-item active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"></path><path d="M14 2v6h6"></path><path d="M8 13h8"></path><path d="M8 17h6"></path></svg>
+          <span>售前报告</span>
+        </div>
+        <div class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 12l2 2 4-4"></path><path d="M21 12A9 9 0 1 1 3 12a9 9 0 0 1 18 0Z"></path></svg>
+          <span>审计</span>
+        </div>
+      </nav>
+
+      <div class="profile">
+        <div class="profile-card">
+          <div class="profile-avatar">1</div>
+          <div>
+            <div class="profile-phone">17758007201</div>
+            <div class="profile-role">ADMIN</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="project-bar">
+        <div class="project-inner">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M2 12h20"></path><path d="M12 2a14.5 14.5 0 0 1 0 20"></path></svg>
+          当前项目：
+          <button class="project-select" type="button">baidu.com <span>⌄</span></button>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="content-inner">
+          <div class="page-head">
+            <div>
+              <h1 class="page-title">售前报告</h1>
+              <p class="page-subtitle">基于现有售前报告派生客户版报告，运营可按页选择客户可见内容。</p>
+            </div>
+            <button class="btn primary" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>
+              生成报告
+            </button>
+          </div>
+
+          <div class="report-stack">
+            <section class="report-card">
+              <div class="report-hero">
+                <img class="report-art" src="./matrix-geo-frontend_files/report_bg-DpCCB6az.png" alt="">
+                <div class="report-label-row">
+                  <div class="report-title">报告信息</div>
+                  <span class="pill">已生成</span>
+                  <span class="pill gray">售前报告</span>
+                </div>
+                <div class="info-grid">
+                  <div class="info-row"><span>品牌名称</span><span>百度产品与服务</span></div>
+                  <div class="info-row"><span>业务目标</span><span>百度产品与服务在 baidu.com 提及/正推均 0，对标微软谷歌等由 0 提升首屏可见。</span></div>
+                  <div class="info-row"><span>生成平台</span><span>ChatGPT / Gemini / Google AI Summary</span></div>
+                  <div class="info-row"><span>生成时间</span><span>2026-06-22 20:13:20</span></div>
+                  <div class="info-row"><span>报告版本</span><span>Presales Report 1.0</span></div>
+                </div>
+              </div>
+              <div class="actions">
+                <a class="btn primary" href="./presales_report_20_20260622201319.html" target="_blank" rel="noreferrer">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2.06 12.35a1 1 0 0 1 0-.7 10.75 10.75 0 0 1 19.88 0 1 1 0 0 1 0 .7 10.75 10.75 0 0 1-19.88 0Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                  预览
+                </a>
+                <a class="btn" href="./presales_report_20_20260622201319.html" download>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 15V3"></path><path d="m7 10 5 5 5-5"></path><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path></svg>
+                  下载 HTML
+                </a>
+                <button class="btn ghost" id="openDrawerBtn" type="button">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>
+                  生成客户版
+                </button>
+              </div>
+              <div class="hint-strip">点击“生成客户版”后，运营在抽屉中按页勾选内容。左侧展示 P1、P2 等页面单元，右侧实时预览当前页面。</div>
+            </section>
+
+            <section class="report-card customer" id="customerCard">
+              <div class="report-hero">
+                <img class="report-art" src="./matrix-geo-frontend_files/report_bg-DpCCB6az.png" alt="">
+                <div class="report-label-row">
+                  <div class="report-title">客户版报告</div>
+                  <span class="pill blue" id="customerStatus">待分享</span>
+                  <span class="pill gray" id="customerPagesPill">已选 0 页</span>
+                </div>
+                <div class="info-grid">
+                  <div class="info-row"><span>客户账号</span><span>customer_baidu@demo.com</span></div>
+                  <div class="info-row"><span>报告名称</span><span>百度产品与服务 GEO 监测报告</span></div>
+                  <div class="info-row"><span>来源报告</span><span id="customerSourceText">售前报告 Presales Report 1.0 / 2026-06-22 20:13:20</span></div>
+                  <div class="info-row"><span>已选页面</span><span id="customerSelectedText">-</span></div>
+                  <div class="info-row"><span>生成时间</span><span id="customerGeneratedAt">-</span></div>
+                </div>
+              </div>
+              <div class="actions">
+                <button class="btn primary" id="customerPreviewBtn" type="button">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2.06 12.35a1 1 0 0 1 0-.7 10.75 10.75 0 0 1 19.88 0 1 1 0 0 1 0 .7 10.75 10.75 0 0 1-19.88 0Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                  预览
+                </button>
+                <button class="btn" id="customerDownloadBtn" type="button">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 15V3"></path><path d="m7 10 5 5 5-5"></path><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path></svg>
+                  下载 HTML
+                </button>
+                <button class="btn ghost" id="uploadHtmlBtn" type="button">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="M17 8 12 3 7 8"></path><path d="M12 3v12"></path></svg>
+                  上传 HTML
+                </button>
+                <button class="btn share" id="shareBtn" type="button">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><path d="M16 6l-4-4-4 4"></path><path d="M12 2v13"></path></svg>
+                  分享
+                </button>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div class="drawer-mask" id="drawerMask"></div>
+  <aside class="drawer" id="drawer" aria-label="生成客户版报告">
+    <div class="drawer-head">
+      <div>
+        <div class="drawer-title">生成客户版报告</div>
+        <div class="drawer-meta">从售前报告中按页选择客户可见内容，右侧实时预览当前页。</div>
+      </div>
+      <button class="icon-btn" id="closeDrawerBtn" type="button" aria-label="关闭">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+      </button>
+    </div>
+
+    <div class="drawer-body">
+      <div class="picker">
+        <div class="picker-top">
+          <div class="summary-box">
+            <div class="summary-cell"><b id="selectedCount">0</b><span>已选页面</span></div>
+            <div class="summary-cell"><b id="visibleCount">16</b><span>总页面数</span></div>
+          </div>
+          <div class="quick-row">
+            <button class="small-btn" id="selectAllBtn" type="button">全选</button>
+            <button class="small-btn" id="clearSelectBtn" type="button">清空</button>
+          </div>
+        </div>
+        <div class="page-list" id="pageList"></div>
+      </div>
+
+      <div class="preview-pane">
+        <div class="preview-toolbar">
+          <div>
+            <div class="preview-title" id="previewTitle">P1. 封面</div>
+          </div>
+          <span class="pill blue" id="previewState">已选择</span>
+        </div>
+        <div class="preview-stage">
+          <div id="pagePreview"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="drawer-foot">
+      <div class="selected-note"><b id="footSelectedCount">0 页</b><br><span id="footSelectedNames">请选择客户需要看到的页面。</span></div>
+      <div class="actions" style="margin:0">
+        <button class="btn ghost" id="drawerCancelBtn" type="button">取消</button>
+        <button class="btn primary" id="generateCustomerBtn" type="button">生成客户版报告</button>
+      </div>
+    </div>
+  </aside>
+
+  <div class="modal-mask" id="modalMask"></div>
+
+  <section class="modal large" id="previewModal" aria-label="客户版报告预览">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title">客户版报告预览</div>
+        <div class="drawer-meta" id="previewModalMeta">-</div>
+      </div>
+      <button class="icon-btn" data-close-modal type="button" aria-label="关闭">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="preview-list" id="customerPreviewList"></div>
+    </div>
+  </section>
+
+  <section class="modal" id="uploadModal" aria-label="上传 HTML">
+    <div class="modal-head">
+      <div class="modal-title">上传 HTML</div>
+      <button class="icon-btn" data-close-modal type="button" aria-label="关闭">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="upload-box">
+        <input id="uploadHtmlInput" type="file" accept=".html,.htm,text/html">
+        <div class="upload-file-name" id="uploadFileName">请选择运营本地修改后的 HTML 文件。</div>
+      </div>
+      <div class="hint-strip">确认后，该客户版报告将覆盖为本地上传文件，来源更新为本地上传。</div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn ghost" data-close-modal type="button">取消</button>
+      <button class="btn primary" id="confirmUploadBtn" type="button">确认上传</button>
+    </div>
+  </section>
+
+  <section class="modal" id="shareModal" aria-label="分享确认">
+    <div class="modal-head">
+      <div class="modal-title">确认分享给客户</div>
+      <button class="icon-btn" data-close-modal type="button" aria-label="关闭">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="confirm-list">
+        <div class="confirm-row"><span>客户账号</span><strong>customer_baidu@demo.com</strong></div>
+        <div class="confirm-row"><span>绑定项目</span><strong>baidu.com</strong></div>
+        <div class="confirm-row"><span>报告名称</span><strong>百度产品与服务 GEO 监测报告</strong></div>
+        <div class="confirm-row"><span>分享内容</span><div id="sharePagesText">-</div></div>
+        <div class="confirm-row"><span>客户权限</span><strong>可在线查看，可下载客户版 HTML</strong></div>
+      </div>
+      <div class="hint-strip">确认后，客户入口将出现这份客户版报告。</div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn ghost" data-close-modal type="button">取消</button>
+      <button class="btn share" id="confirmShareBtn" type="button">确认分享</button>
+    </div>
+  </section>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const pageData = [
+      {
+        no: 1,
+        title: "封面",
+        defaultSelected: true,
+        type: "cover"
+      },
+      {
+        no: 2,
+        title: "整体概览",
+        defaultSelected: true,
+        type: "overview"
+      },
+      {
+        no: 3,
+        title: "品牌分析 / 品牌竞争指数",
+        defaultSelected: true,
+        type: "competition"
+      },
+      {
+        no: 4,
+        title: "品牌分析 / 品牌情绪指数",
+        defaultSelected: true,
+        type: "sentiment"
+      },
+      {
+        no: 5,
+        title: "品牌分析 / AI 引用源分析",
+        defaultSelected: true,
+        type: "citation"
+      },
+      {
+        no: 6,
+        title: "品牌分析 / 官网检测报告",
+        defaultSelected: true,
+        type: "website"
+      },
+      {
+        no: 7,
+        title: "GEO 优化策略",
+        defaultSelected: false,
+        type: "strategy"
+      },
+      {
+        no: 8,
+        title: "GEO 意图洞察",
+        defaultSelected: true,
+        type: "intent"
+      },
+      {
+        no: 9,
+        title: "GEO 技术优化",
+        defaultSelected: true,
+        type: "tech"
+      },
+      {
+        no: 10,
+        title: "语义优化权威背书",
+        defaultSelected: false,
+        type: "endorse"
+      },
+      {
+        no: 11,
+        title: "GEO 效果承诺",
+        defaultSelected: false,
+        type: "commitment"
+      },
+      {
+        no: 12,
+        title: "AI 可见度效果承诺",
+        defaultSelected: false,
+        type: "visibility"
+      },
+      {
+        no: 13,
+        title: "Peec AI 监控示意图",
+        defaultSelected: false,
+        type: "peec"
+      },
+      {
+        no: 14,
+        title: "流量效果承诺",
+        defaultSelected: false,
+        type: "traffic"
+      },
+      {
+        no: 15,
+        title: "客户案例",
+        defaultSelected: false,
+        type: "cases"
+      },
+      {
+        no: 16,
+        title: "报价",
+        defaultSelected: false,
+        type: "pricing"
+      }
+    ];
+
+    const state = {
+      activePageNo: 1,
+      selected: new Set(pageData.filter((page) => page.defaultSelected).map((page) => page.no)),
+      generatedPages: [],
+      uploadedHtmlContent: "",
+      uploadedFileName: "",
+      uploadedAt: "",
+      shared: false
+    };
+
+    const pageList = document.getElementById("pageList");
+    const pagePreview = document.getElementById("pagePreview");
+    const selectedCount = document.getElementById("selectedCount");
+    const footSelectedCount = document.getElementById("footSelectedCount");
+    const footSelectedNames = document.getElementById("footSelectedNames");
+    const customerCard = document.getElementById("customerCard");
+    const customerPagesPill = document.getElementById("customerPagesPill");
+    const customerSelectedText = document.getElementById("customerSelectedText");
+    const customerGeneratedAt = document.getElementById("customerGeneratedAt");
+    const customerStatus = document.getElementById("customerStatus");
+    const customerSourceText = document.getElementById("customerSourceText");
+    const drawer = document.getElementById("drawer");
+    const drawerMask = document.getElementById("drawerMask");
+    const modalMask = document.getElementById("modalMask");
+    const previewModal = document.getElementById("previewModal");
+    const uploadModal = document.getElementById("uploadModal");
+    const shareModal = document.getElementById("shareModal");
+    const uploadHtmlInput = document.getElementById("uploadHtmlInput");
+    const uploadFileName = document.getElementById("uploadFileName");
+    const toast = document.getElementById("toast");
+
+    function iconCheck() {
+      return '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>';
+    }
+
+    function renderList() {
+      pageList.innerHTML = pageData.map((page) => {
+        const checked = state.selected.has(page.no) ? "checked" : "";
+        const active = page.no === state.activePageNo ? "active" : "";
+        return `
+          <label class="page-row ${active}" data-page-no="${page.no}">
+            <input type="checkbox" ${checked} data-check-page="${page.no}">
+            <div>
+              <div class="page-name"><span>P${page.no}. ${page.title}</span></div>
+            </div>
+          </label>
+        `;
+      }).join("");
+    }
+
+    function renderPreview() {
+      const page = pageData.find((item) => item.no === state.activePageNo) || pageData[0];
+      document.getElementById("previewTitle").textContent = `P${page.no}. ${page.title}`;
+      const previewState = document.getElementById("previewState");
+      previewState.textContent = state.selected.has(page.no) ? "已选择" : "未选择";
+      previewState.className = state.selected.has(page.no) ? "pill blue" : "pill gray";
+      pagePreview.innerHTML = renderReportPage(page);
+    }
+
+    function updateSummary() {
+      const selectedPages = getSelectedPages();
+      selectedCount.textContent = selectedPages.length;
+      footSelectedCount.textContent = `${selectedPages.length} 页`;
+      footSelectedNames.textContent = selectedPages.length
+        ? selectedPages.map((page) => `P${page.no}`).join("、")
+        : "请选择客户需要看到的页面。";
+    }
+
+    function refresh() {
+      renderList();
+      renderPreview();
+      updateSummary();
+    }
+
+    function getSelectedPages() {
+      return pageData.filter((page) => state.selected.has(page.no));
+    }
+
+    function openDrawer() {
+      drawer.classList.add("open");
+      drawerMask.classList.add("open");
+      refresh();
+    }
+
+    function closeDrawer() {
+      drawer.classList.remove("open");
+      drawerMask.classList.remove("open");
+    }
+
+    function openModal(modal) {
+      modalMask.classList.add("open");
+      modal.classList.add("open");
+    }
+
+    function closeModals() {
+      modalMask.classList.remove("open");
+      previewModal.classList.remove("open");
+      uploadModal.classList.remove("open");
+      shareModal.classList.remove("open");
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+      window.clearTimeout(showToast.timer);
+      showToast.timer = window.setTimeout(() => toast.classList.remove("show"), 2600);
+    }
+
+    function renderReportPage(page) {
+      if (page.type === "cover") {
+        return `
+          <article class="report-page cover-page">
+            <div class="cover-content">
+              <div class="cover-logo"><span class="cover-logo-mark">G</span><span>GEO AGENT</span></div>
+              <div class="cover-heading">
+                <h2>百度产品与服务<br>GEO 监测报告</h2>
+                <p>Generative Engine Optimization<br>报告日期：2026-06-22</p>
+              </div>
+              <div class="cover-metrics">
+                <div class="cover-metric"><span>覆盖平台</span><b>ChatGPT / Gemini / Google AI Overviews</b></div>
+                <div class="cover-metric"><span>AI 意图提示词样本</span><b>30 条 prompt，3 类意图</b></div>
+                <div class="cover-metric"><span>业务目标</span><b>由 0 提升至首屏可见</b></div>
+              </div>
+            </div>
+          </article>
+        `;
+      }
+
+      const content = {
+        overview: `
+          <div class="metric-grid">
+            <div class="metric-card"><span>提及率</span><b>0%</b><em>官方内容被 AI 收录引用的概率。</em></div>
+            <div class="metric-card"><span>首屏提及率</span><b>0%</b><em>AI 回答首屏或第一段出现的概率。</em></div>
+            <div class="metric-card"><span>品牌竞争力</span><b>0%</b><em>衡量品牌在 AI 回答中相对于同行的综合竞争力。</em></div>
+            <div class="metric-card"><span>网站 AI 可见评分</span><b>48/100</b><em>核心问题 7 个，轻微问题 6 个。</em></div>
+          </div>
+          <div class="insight-box">当前 SOV、引用率、首屏占有率、正向推荐率均为 0。建议优先补齐场景化问答、第三方引用与首屏摘要素材。</div>
+        `,
+        competition: `
+          <div class="insight-box">市场位置处于劣势，当前无可验证最强项。建议围绕搜索、广告、AI、云与 B2B 场景建设可引用证据和差异化对比话术。</div>
+          <div class="chart-card">
+            <div class="bar-row"><span>Microsoft</span><div class="bar-track"><div class="bar-fill" style="width:68%"></div></div><b>持平</b></div>
+            <div class="bar-row"><span>Google Search</span><div class="bar-track"><div class="bar-fill" style="width:62%;background:#14b8a6"></div></div><b>持平</b></div>
+            <div class="bar-row"><span>ByteDance</span><div class="bar-track"><div class="bar-fill" style="width:55%;background:#22c55e"></div></div><b>持平</b></div>
+            <div class="bar-row"><span>Alibaba Group</span><div class="bar-track"><div class="bar-fill" style="width:50%;background:#f59e0b"></div></div><b>持平</b></div>
+          </div>
+        `,
+        sentiment: `
+          <div class="metric-grid">
+            <div class="metric-card"><span>正向推荐</span><b>0%</b><em>正向及推荐记录数：0。</em></div>
+            <div class="metric-card"><span>负向及未推荐</span><b>100%</b><em>负向及未推荐记录数：60。</em></div>
+          </div>
+          <table class="table">
+            <tr><th>平台</th><th>正向</th><th>中立</th><th>负向</th></tr>
+            <tr><td>ChatGPT</td><td>0</td><td>0</td><td>20</td></tr>
+            <tr><td>Gemini</td><td>0</td><td>0</td><td>20</td></tr>
+            <tr><td>Google AI Overviews</td><td>0</td><td>0</td><td>20</td></tr>
+          </table>
+        `,
+        citation: `
+          <div class="insight-box">AI 引用源暂未形成稳定官网内容引用。客户版保留该页，用于持续追踪后续优化是否被模型收录。</div>
+          <table class="table">
+            <tr><th>来源类型</th><th>引用次数</th><th>客户解读</th></tr>
+            <tr><td>官方网站</td><td>0</td><td>需补齐结构化内容与可引用页面</td></tr>
+            <tr><td>第三方媒体</td><td>0</td><td>需增加权威曝光</td></tr>
+            <tr><td>社区/论坛</td><td>0</td><td>需建设可验证讨论资产</td></tr>
+          </table>
+        `,
+        website: `
+          <div class="metric-grid">
+            <div class="metric-card"><span>网站 AI 可见评分</span><b>48/100</b><em>仍存在核心问题。</em></div>
+            <div class="metric-card"><span>核心问题</span><b>7</b><em>影响 AI 抓取和理解。</em></div>
+          </div>
+          <div class="checklist">
+            <div class="check-item"><span class="check-dot">1</span><div><b>补充结构化问答内容</b><span>围绕高频 Prompt 建设可被 AI 直接引用的段落。</span></div></div>
+            <div class="check-item"><span class="check-dot">2</span><div><b>提升页面语义清晰度</b><span>优化标题层级、摘要、产品实体和场景描述。</span></div></div>
+          </div>
+        `,
+        strategy: `
+          <div class="quote-card"><b>GEO 优化策略</b>通过内容资产、技术可见性、第三方权威引用三条路径提升品牌在生成式引擎中的出现率和推荐率。</div>
+          <div class="checklist">
+            <div class="check-item"><span class="check-dot">A</span><div><b>内容生成</b><span>适配模型收录规则，生成高质量文章。</span></div></div>
+            <div class="check-item"><span class="check-dot">B</span><div><b>渠道分发</b><span>覆盖媒体、社区、百科和高权重页面。</span></div></div>
+          </div>
+        `,
+        intent: `
+          <div class="insight-box">从 30 条 Prompt 样本中识别搜索、广告 ROI、B2B 转化、云存储、API 成本等关键意图。</div>
+          <table class="table">
+            <tr><th>意图类别</th><th>样本量</th><th>建议优先级</th></tr>
+            <tr><td>采购对比</td><td>10</td><td>高</td></tr>
+            <tr><td>成本评估</td><td>8</td><td>高</td></tr>
+            <tr><td>专业研究</td><td>12</td><td>中</td></tr>
+          </table>
+        `,
+        tech: `
+          <div class="checklist">
+            <div class="check-item"><span class="check-dot">1</span><div><b>增加实体说明页面</b><span>让模型更稳定理解品牌、产品、服务和目标场景。</span></div></div>
+            <div class="check-item"><span class="check-dot">2</span><div><b>优化可抓取内容块</b><span>减少图片化信息，补充文本化摘要。</span></div></div>
+            <div class="check-item"><span class="check-dot">3</span><div><b>建设 Prompt 对应内容</b><span>用 FAQ、方案页、对比页覆盖高价值意图。</span></div></div>
+          </div>
+        `,
+        endorse: `
+          <div class="quote-card"><b>语义优化权威背书</b>邀请行业专家与从业者创作内容以获取背书；撰写白皮书、行业报告，增强内容权威性。</div>
+        `,
+        commitment: `
+          <div class="metric-grid">
+            <div class="metric-card"><span>阶段目标</span><b>90 天</b><em>建立基础可见度和引用资产。</em></div>
+            <div class="metric-card"><span>重点指标</span><b>SOV</b><em>持续追踪品牌在 AI 回答中的份额。</em></div>
+          </div>
+          <div class="insight-box">该页属于售前承诺表达，客户版默认不选。</div>
+        `,
+        visibility: `
+          <div class="chart-card">
+            <div class="bar-row"><span>首月</span><div class="bar-track"><div class="bar-fill" style="width:28%"></div></div><b>基线</b></div>
+            <div class="bar-row"><span>第二月</span><div class="bar-track"><div class="bar-fill" style="width:56%"></div></div><b>提升</b></div>
+            <div class="bar-row"><span>第三月</span><div class="bar-track"><div class="bar-fill" style="width:78%"></div></div><b>稳定</b></div>
+          </div>
+        `,
+        peec: `
+          <div class="insight-box">Peec AI 监控示意图用于解释外部监控能力，客户版可按沟通需要勾选。</div>
+          <div class="chart-card">
+            <div class="bar-row"><span>ChatGPT</span><div class="bar-track"><div class="bar-fill" style="width:42%"></div></div><b>监控</b></div>
+            <div class="bar-row"><span>Gemini</span><div class="bar-track"><div class="bar-fill" style="width:36%;background:#14b8a6"></div></div><b>监控</b></div>
+            <div class="bar-row"><span>Google AIO</span><div class="bar-track"><div class="bar-fill" style="width:52%;background:#22c55e"></div></div><b>监控</b></div>
+          </div>
+        `,
+        traffic: `
+          <div class="quote-card"><b>流量效果承诺</b>该页面包含增长预期口径，建议仅在运营确认客户沟通需要时分享。</div>
+        `,
+        cases: `
+          <div class="checklist">
+            <div class="check-item"><span class="check-dot">C</span><div><b>客户案例 A</b><span>通过内容矩阵建设提升 AI 可见度。</span></div></div>
+            <div class="check-item"><span class="check-dot">D</span><div><b>客户案例 B</b><span>通过官网技术优化改善模型理解。</span></div></div>
+          </div>
+        `,
+        pricing: `
+          <table class="table">
+            <tr><th>服务包</th><th>内容</th><th>周期</th></tr>
+            <tr><td>基础版</td><td>监控报告 + 基础优化建议</td><td>月度</td></tr>
+            <tr><td>进阶版</td><td>内容策略 + 技术优化 + 复盘</td><td>月度</td></tr>
+          </table>
+        `
+      }[page.type] || "<div class='insight-box'>页面内容预览。</div>";
+
+      return `
+        <article class="report-page">
+          <div class="page-content">
+            <div class="section-headline">
+              <div class="section-no">${String(page.no).padStart(2, "0")}</div>
+              <div>
+                <h2>${page.title}</h2>
+                <p>百度产品与服务 GEO 监测报告 / 2026-06-22</p>
+              </div>
+            </div>
+            ${content}
+          </div>
+        </article>
+      `;
+    }
+
+    function generateCustomerReport() {
+      const selectedPages = getSelectedPages();
+      if (!selectedPages.length) {
+        showToast("至少需要选择 1 页，才能生成客户版报告。");
+        return;
+      }
+      state.generatedPages = selectedPages;
+      state.uploadedHtmlContent = "";
+      state.uploadedFileName = "";
+      state.uploadedAt = "";
+      state.shared = false;
+      customerCard.classList.add("show");
+      customerStatus.textContent = "待分享";
+      customerStatus.className = "pill blue";
+      customerPagesPill.textContent = `已选 ${selectedPages.length} 页`;
+      customerSelectedText.textContent = selectedPages.map((page) => `P${page.no}. ${page.title}`).join("、");
+      customerSourceText.textContent = "售前报告 Presales Report 1.0 / 2026-06-22 20:13:20";
+      customerGeneratedAt.textContent = new Date().toLocaleString("zh-CN", { hour12: false });
+      closeDrawer();
+      customerCard.scrollIntoView({ behavior: "smooth", block: "center" });
+      showToast("客户版报告已生成，已追加到当前售前报告下方。");
+    }
+
+    function renderCustomerPreview() {
+      if (!state.generatedPages.length) {
+        showToast("请先生成客户版报告。");
+        return;
+      }
+      if (state.uploadedHtmlContent) {
+        document.getElementById("previewModalMeta").textContent = `本地上传：${state.uploadedFileName}`;
+        document.getElementById("customerPreviewList").innerHTML = `<iframe class="uploaded-preview-frame" title="本地上传 HTML 预览"></iframe>`;
+        document.querySelector(".uploaded-preview-frame").srcdoc = state.uploadedHtmlContent;
+      } else {
+        document.getElementById("previewModalMeta").textContent = `已选 ${state.generatedPages.length} 页：${state.generatedPages.map((page) => `P${page.no}`).join("、")}`;
+        document.getElementById("customerPreviewList").innerHTML = state.generatedPages.map(renderReportPage).join("");
+      }
+      openModal(previewModal);
+    }
+
+    function openShareConfirm() {
+      if (!state.generatedPages.length) {
+        showToast("请先生成客户版报告。");
+        return;
+      }
+      document.getElementById("sharePagesText").textContent = state.uploadedHtmlContent
+        ? `本地上传 HTML：${state.uploadedFileName}`
+        : state.generatedPages.map((page) => `P${page.no}. ${page.title}`).join("、");
+      openModal(shareModal);
+    }
+
+    function confirmShare() {
+      state.shared = true;
+      customerStatus.textContent = "已分享";
+      customerStatus.className = "pill";
+      closeModals();
+      showToast("已分享给客户账号 customer_baidu@demo.com。");
+    }
+
+    function downloadCustomerHtml() {
+      if (!state.generatedPages.length) {
+        showToast("请先生成客户版报告。");
+        return;
+      }
+      const body = state.generatedPages.map(renderReportPage).join("");
+      const html = state.uploadedHtmlContent || `<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><title>百度产品与服务 GEO 监测报告</title><style>${Array.from(document.styleSheets).map((sheet) => {
+        try {
+          return Array.from(sheet.cssRules).map((rule) => rule.cssText).join("\\n");
+        } catch (error) {
+          return "";
+        }
+      }).join("\\n")}body{background:#f8fafc}.download-wrap{display:grid;gap:24px;justify-items:center;padding:32px}</style></head><body><main class="download-wrap">${body}</main></body></html>`;
+      const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = state.uploadedFileName || "customer_geo_report_baidu_20260622.html";
+      link.click();
+      URL.revokeObjectURL(url);
+      showToast("客户版 HTML 已开始下载。");
+    }
+
+    function openUploadModal() {
+      if (!state.generatedPages.length) {
+        showToast("请先生成客户版报告。");
+        return;
+      }
+      uploadHtmlInput.value = "";
+      uploadFileName.textContent = "请选择运营本地修改后的 HTML 文件。";
+      openModal(uploadModal);
+    }
+
+    function confirmUploadHtml() {
+      const file = uploadHtmlInput.files && uploadHtmlInput.files[0];
+      if (!file) {
+        showToast("请先选择一个 HTML 文件。");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        state.uploadedHtmlContent = String(reader.result || "");
+        state.uploadedFileName = file.name;
+        state.uploadedAt = new Date().toLocaleString("zh-CN", { hour12: false });
+        state.shared = false;
+        customerSourceText.textContent = `本地上传，上传时间 ${state.uploadedAt}`;
+        customerSelectedText.textContent = `本地上传文件：${state.uploadedFileName}`;
+        customerPagesPill.textContent = "本地上传";
+        customerStatus.textContent = "待分享";
+        customerStatus.className = "pill blue";
+        closeModals();
+        showToast("已上传 HTML，客户版报告已覆盖为本地文件。");
+      };
+      reader.onerror = () => showToast("文件读取失败，请重新选择 HTML 文件。");
+      reader.readAsText(file, "UTF-8");
+    }
+
+    pageList.addEventListener("click", (event) => {
+      const checkbox = event.target.closest("[data-check-page]");
+      const row = event.target.closest("[data-page-no]");
+      if (!row) return;
+      const pageNo = Number(row.dataset.pageNo);
+      state.activePageNo = pageNo;
+      if (checkbox) {
+        if (checkbox.checked) state.selected.add(pageNo);
+        else state.selected.delete(pageNo);
+      }
+      refresh();
+    });
+
+    document.getElementById("openDrawerBtn").addEventListener("click", openDrawer);
+    document.getElementById("closeDrawerBtn").addEventListener("click", closeDrawer);
+    document.getElementById("drawerCancelBtn").addEventListener("click", closeDrawer);
+    drawerMask.addEventListener("click", closeDrawer);
+    document.getElementById("generateCustomerBtn").addEventListener("click", generateCustomerReport);
+
+    document.getElementById("selectAllBtn").addEventListener("click", () => {
+      state.selected = new Set(pageData.map((page) => page.no));
+      refresh();
+    });
+
+    document.getElementById("clearSelectBtn").addEventListener("click", () => {
+      state.selected = new Set();
+      refresh();
+    });
+
+    document.getElementById("customerPreviewBtn").addEventListener("click", renderCustomerPreview);
+    document.getElementById("customerDownloadBtn").addEventListener("click", downloadCustomerHtml);
+    document.getElementById("uploadHtmlBtn").addEventListener("click", openUploadModal);
+    document.getElementById("confirmUploadBtn").addEventListener("click", confirmUploadHtml);
+    uploadHtmlInput.addEventListener("change", () => {
+      const file = uploadHtmlInput.files && uploadHtmlInput.files[0];
+      uploadFileName.textContent = file ? `已选择：${file.name}` : "请选择运营本地修改后的 HTML 文件。";
+    });
+    document.getElementById("shareBtn").addEventListener("click", openShareConfirm);
+    document.getElementById("confirmShareBtn").addEventListener("click", confirmShare);
+
+    document.querySelectorAll("[data-close-modal]").forEach((button) => button.addEventListener("click", closeModals));
+    modalMask.addEventListener("click", closeModals);
+
+    refresh();
+  </script>
+</body>
+</html>
